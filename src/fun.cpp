@@ -1,53 +1,71 @@
 // Copyright 2022 UNN-IASR
-#include "fun.h"
-#include <cstring>
+#include <iostream>
 #include <cctype>
 #include <cmath>
 
 unsigned int faStr1(const char* str) {
-    unsigned int count = 0; // счетчик слов без цифр
-
+    unsigned int wordsCount = 0;  
+    bool inWord = false;  
+    bool lastDigit = false;
     while (*str) {
-        if (isalpha(*str)) {
-            while (isalnum(*str)) {
-                if (isdigit(*str)) {
-                    break;
+        if (std::isalpha(*str) || std::isdigit(*str)) {
+            if (!inWord) {
+                inWord = true;
+                while (std::isalpha(*str) || std::isdigit(*str)) {
+                    if (std::isdigit(*str)) {
+                        std::cout << "Digit: " << *str << std::endl;
+                        inWord = false;
+                        ++str;
+                    }
+                    ++str;
                 }
-                str++;
+                if (inWord) ++wordsCount;
             }
-            count++;
-        } else {
-            str++;
+        }
+        else {
+            inWord = false;
+            ++str;
         }
     }
-
-    return count;
+    return wordsCount;
 }
 
 unsigned int faStr2(const char* str) {
-    unsigned int count = 0; // счетчик слов, удовлетворяющих условиям
-
-    while (*str) {
-        if (isupper(*str)) {
-            while (isalpha(*str)) {
-                if (islower(*str)) {
-                    str++;
-                } else {
-                    break;
+    unsigned int wordsCount = 0;  
+    bool validity = true; 
+    int startIndex;
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] != ' ') {
+            if (startIndex != -1) {
+                if (!('a' <= str[i] && str[i] <= 'z')) {
+                    validity = false;
                 }
             }
-            count++;
-        } else {
-            str++;
+            else {
+                if (!('A' <= str[i] && str[i] <= 'Z')) {
+                    validity = false;
+                }
+                startIndex = i;
+            }
+        }
+        else {
+            if (validity && startIndex != -1) {
+                wordsCount++;
+            }
+            startIndex = -1;
+            validity = true;
         }
     }
-
-    return count;
+    
+    if (validity && startIndex != -1) {
+        wordsCount++;
+    }
+    return wordsCount;
 }
 
 unsigned int faStr3(const char* str) {
-    unsigned int totalLength = 0; // общая длина слов
-    unsigned int wordCount = 0; // счетчик слов
+    unsigned int totalLength = 0; 
+    unsigned int wordCount = 0; 
 
     while (*str) {
         if (isalpha(*str)) {
@@ -58,7 +76,8 @@ unsigned int faStr3(const char* str) {
             }
             totalLength += length;
             wordCount++;
-        } else {
+        }
+        else {
             str++;
         }
     }

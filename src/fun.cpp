@@ -12,8 +12,7 @@ unsigned int faStr1(const char* str) {
             if (!inWord) {
                 inWord = true;
                 while (std::isalpha(*str) || std::isdigit(*str)) {
-                    if (std::isdigit(*str)) {
-                        std::cout << "Digit: " << *str << std::endl;
+                    if (std::isdigit(*str)) {                        
                         inWord = false;
                         ++str;
                     }

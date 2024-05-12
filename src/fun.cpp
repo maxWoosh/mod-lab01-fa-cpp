@@ -63,23 +63,18 @@ unsigned int faStr2(const char* str) {
 }
 
 unsigned int faStr3(const char* str) {
-    unsigned int totalLength = 0; 
-    unsigned int wordCount = 0; 
-
-    while (*str) {
-        if (isalpha(*str)) {
-            unsigned int length = 0;
-            while (isalpha(*str)) {
-                length++;
-                str++;
-            }
-            totalLength += length;
-            wordCount++;
-        }
-        else {
-            str++;
-        }
+    bool inWord = false;
+    int i = 0;
+    float count = 0, count_s = 0;
+    float lenght = 0;
+    while (str[i] != '\0') {
+        if (str[i] != ' ' && inWord == false) {
+            inWord = true;
+            count++;
+        } else if (str[i] == ' ' && inWord == true) { inWord = false; }
+        if (str[i] != ' ') { count_s++; }
+        i++;
     }
-
-    return totalLength / wordCount;
+    lenght = round(count_s / count);
+    return lenght;
 }

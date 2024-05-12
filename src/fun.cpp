@@ -1,80 +1,84 @@
 // Copyright 2022 UNN-IASR
-#include <iostream>
+#include "fun.h"
 #include <cctype>
 #include <cmath>
 
-unsigned int faStr1(const char* str) {
-    unsigned int wordsCount = 0;  
-    bool inWord = false;  
+unsigned int faStr1(const char *str) {
+    unsigned int count = 0;
+    bool inWord = false;
     bool lastDigit = false;
     while (*str) {
         if (std::isalpha(*str) || std::isdigit(*str)) {
             if (!inWord) {
                 inWord = true;
                 while (std::isalpha(*str) || std::isdigit(*str)) {
-                    if (std::isdigit(*str)) {                        
+                    if (std::isdigit(*str)) {
+                        std::cout << "Digit: " << *str << std::endl;
                         inWord = false;
                         ++str;
                     }
                     ++str;
                 }
-                if (inWord) ++wordsCount;
+                if (inWord) ++count;
             }
-        }
-        else {
+        } else {
             inWord = false;
             ++str;
         }
     }
-    return wordsCount;
+    return count;
 }
-
 unsigned int faStr2(const char* str) {
-    unsigned int wordsCount = 0;  
-    bool validity = true; 
-    int startIndex;
+    unsigned int count = 0;
+    bool validity = true;
+    int startIndex = -1;
     for (int i = 0; str[i] != '\0'; i++) {
         if (str[i] != ' ') {
             if (startIndex != -1) {
                 if (!('a' <= str[i] && str[i] <= 'z')) {
                     validity = false;
                 }
-            }
-            else {
+            } else {
                 if (!('A' <= str[i] && str[i] <= 'Z')) {
                     validity = false;
                 }
                 startIndex = i;
             }
-        }
-        else {
+        } else {
             if (validity && startIndex != -1) {
-                wordsCount++;
+                count++;
             }
             startIndex = -1;
             validity = true;
         }
     }
-    
     if (validity && startIndex != -1) {
-        wordsCount++;
+        count++;
     }
-    return wordsCount;
+    return count;
 }
-
-unsigned int faStr3(const char* str) {
+unsigned int faStr3(const char *str) {
+    unsigned int wordCount = 0;
+    unsigned int totalLength = 0;
     bool inWord = false;
-    int i = 0;
-    float count = 0, count_s = 0;
-    float lenght = 0;
-    while (str[i] != '\0') {
-        if (str[i] != ' ' && inWord == false) {
-            inWord = true;
-            count++;
-        } else if (str[i] == ' ' && inWord == true) { inWord = false; }
-        if (str[i] != ' ') { count_s++; }
-        i++;
+    while (*str) {
+        if (std::isalpha(*str)) {
+            if (!inWord) {
+                inWord = true;
+                ++wordCount;
+            }
+            ++totalLength;
+        } else {
+            inWord = false;
+        }
+        ++str;
+    }    
+    unsigned int averageLength = 0;
+    if (wordCount != 0) {
+        averageLength = totalLength / wordCount;
+    }   
+    if (totalLength % wordCount * 2 >= wordCount) {
+        averageLength += 1;
     }
-    lenght = round(count_s / count);
-    return lenght;
+    return averageLength;
 }

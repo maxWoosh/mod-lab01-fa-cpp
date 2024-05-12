@@ -12,7 +12,7 @@ unsigned int faStr1(const char *str) {
             if (!inWord) {
                 inWord = true;
                 while (std::isalpha(*str) || std::isdigit(*str)) {
-                    if (std::isdigit(*str)) {                      
+                    if (std::isdigit(*str)) {
                         inWord = false;
                         ++str;
                     }
@@ -71,11 +71,11 @@ unsigned int faStr3(const char *str) {
             inWord = false;
         }
         ++str;
-    }    
+    }
     unsigned int averageLength = 0;
     if (wordCount != 0) {
         averageLength = totalLength / wordCount;
-    }   
+    }
     if (totalLength % wordCount * 2 >= wordCount) {
         averageLength += 1;
     }
